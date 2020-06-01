@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html>
 	<body>
-		<button onclick="loadData()">Charger les données enregister</button>
-		<button onclick="saveData()">Enregistrer les données</button>
+		<button onclick="loadData()">📂 Charger les données enregistées</button>
+		<button onclick="saveData()">💾 Enregistrer les données</button>
+		<button onclick="delData()">❌ Effacer les mesures à l'écran</button>
 		<br />
 		<br />
-		<input type="text" id="poi" />
+		Nom du point : <input type="text" id="poi" />
 		<!--Point of Interest-->
 		<br />
-		<button onclick="getLocation()">Valider</button>
+		<button onclick="getLocation()">Trouver la position</button>
 
 		<div id="showData"></div>
 
@@ -34,15 +35,15 @@
 
 			function loadData()
 			{
-				a = localStorage.getItem('item_and_GPS');
-				b = JSON.parse(a);
-				data = b;
+				data = JSON.parse(localStorage.getItem('item_and_GPS'));
 				dispData();
 			}
+
 			function saveData()
 			{
 				localStorage.setItem('item_and_GPS', JSON.stringify(data));
 			}
+			
 			function dispData()
 			{
 				container.innerHTML= ""
@@ -65,9 +66,13 @@
 					para.appendChild(document.createTextNode(" metres"));
 
 					container.appendChild(para)
-
 				}
 
+			}			
+			function delData()
+			{
+				data = [];
+				dispData();
 			}
 
 		</script>
