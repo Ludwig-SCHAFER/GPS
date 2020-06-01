@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+	<body>
+		<button onclick="loadData()">Charger les données enregister</button>
+		<button onclick="saveData()">Enregistrer les données</button>
+		<br />
+		<br />
+		<input type="text" id="poi" />
+		<!--Point of Interest-->
+		<br />
+		<button onclick="getLocation()">Valider</button>
+
+		<div id="showData"></div>
+
+		<script>
+			data = [];
+
+			var container = document.getElementById("showData");
+
+			function getLocation()
+			{
+				if (navigator.geolocation)
+					navigator.geolocation.getCurrentPosition(getPosition);
+				else
+					container.innerHTML = "Geolocation is not supported by this browser.";
+			}
+
+			function getPosition(position)
+			{
+				p = position.coords
+				data.push([document.getElementById("poi").value, p.latitude, p.longitude, p.altitude, p.accuracy, p.altitudeAccuracy]);
+				dispData();
+			}
+
+			function loadData()
+			{
+				a = localStorage.getItem('item_and_GPS');
+				b = JSON.parse(a);
+				data = b;
+				dispData();
+			}
+			function saveData()
+			{
+				localStorage.setItem('item_and_GPS', JSON.stringify(data));
+			}
+			function dispData()
+			{
+				container.innerHTML= ""
+				for(i=0; i<data.length; i++)
+				{
+					para = document.createElement("pre");
+					a = document.createTextNode(data[i][0])
+					b = document.createTextNode(data[i][1])
+					c = document.createTextNode(data[i][2])
+					d = document.createTextNode(data[i][4])
+
+					para.appendChild(document.createTextNode(" • "));
+					para.appendChild(a);
+					para.appendChild(document.createTextNode("    LAT = "));
+					para.appendChild(b);
+					para.appendChild(document.createTextNode("    LONG = "));
+					para.appendChild(c);
+					para.appendChild(document.createTextNode("    ±"));
+					para.appendChild(d);
+					para.appendChild(document.createTextNode(" metres"));
+
+					container.appendChild(para)
+
+				}
+
+			}
+
+		</script>
+	</body>
+</html>
